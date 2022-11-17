@@ -129,7 +129,7 @@ function App() {
         const progressValue = currentTrack.currentTime / totalDuration * 100
         const interval = setInterval(() => {
             setCompleted(progressValue);
-            isPlaying ? setSecondsCount(secondsCount + 1) : setSecondsCount(secondsCount)
+            isPlaying && currentTrack.duration ? setSecondsCount(secondsCount + 1) : setSecondsCount(secondsCount)
         }, 1000);
         return () => clearInterval(interval);
     }, [currentTrack.currentTime, totalDuration, isPlaying, secondsCount]);
