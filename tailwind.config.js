@@ -13,6 +13,12 @@ module.exports = {
                 '2xl': '6rem',
             },
         },
+        colors: {
+            'main': '#48A9A6',
+            'white': '#ffffff',
+            'main-light': '#D4EDEC',
+            'red': '#E83151',
+        },
         screens: {
             'sm': '320px',
             // => @media (min-width: 640px) { ... }

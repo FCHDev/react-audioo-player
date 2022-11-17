@@ -6,19 +6,32 @@ import {BsFillPauseCircleFill} from "react-icons/bs";
 import {BsFillSkipEndFill} from "react-icons/bs";
 import {BsStopCircleFill} from "react-icons/bs";
 
-const ControlPanel = ({play, pause, stop, isPlaying, forward, rewind}) => {
-    const playIcon = <BsFillPlayCircleFill className="w-12 h-12 cursor-pointer text-indigo-600" onClick={play} height="2em" width="2em"/>
+const ControlPanel = ({play, pause, stop, isPlaying, forward, rewind, tracks, id}) => {
+    const playIcon =
+        <BsFillPlayCircleFill
+            className="md:w-14 md:h-14 sm:w-16 sm:h-16 cursor-pointer text-main box-shadow4 rounded-full"
+            onClick={play}
+            height="2em"
+            width="2em"/>
 
-    const pauseIcon = <BsFillPauseCircleFill className="w-12 h-12 cursor-pointer text-indigo-600" onClick={pause}/>
-
+    const pauseIcon =
+        <BsFillPauseCircleFill
+            className="md:w-14 md:h-14 sm:w-16 sm:h-16 cursor-pointer text-main box-shadow4 rounded-full"
+            onClick={pause}/>
 
     return (
-        <div className="flex justify-evenly w-full pl-0 mt-3">
+        <div className="flex justify-evenly w-full pl-0 sm:mt-6 md:mt-3">
 
-            <BsFillSkipStartFill className="w-10 h-10 cursor-pointer" onClick={rewind}/>
+            {id === 0
+                ? <BsFillSkipStartFill className="w-12 h-12 text-main-light"/>
+                : <BsFillSkipStartFill className="w-12 h-12 cursor-pointer" onClick={rewind}/>}
             {isPlaying ? pauseIcon : playIcon}
-            <BsStopCircleFill className="w-12 h-12 cursor-pointer" onClick={stop}/>
-            <BsFillSkipEndFill className="w-10 h-10 cursor-pointer" onClick={forward}/>
+            <BsStopCircleFill className="md:w-14 md:h-14 sm:w-16 sm:h-16 cursor-pointer box-shadow4 rounded-full
+            hover:origin-top
+            transition-all[200ms]" onClick={stop}/>
+            {id + 1 === tracks.length
+                ? <BsFillSkipEndFill className="w-12 h-12 text-main-light"/>
+                : <BsFillSkipEndFill className="w-12 h-12 cursor-pointer" onClick={forward}/>}
 
         </div>
     );

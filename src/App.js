@@ -1,24 +1,116 @@
 import ControlPanel from "./components/ControlPanel";
-import {playlist} from "./assets/datas/playlist.js"
 import React, {useEffect, useRef, useState} from "react";
 import VolumeModule from "./components/VolumeModule";
 import convertSecondstoTime from "./functions/convertSecondsToTime";
+import {onValue, ref} from "firebase/database";
+import {db} from "./config/firebase-config";
+// import ButtonAdminPanel from "./components/ButtonAdminPanel";
+// import AdminPanel from "./components/AdminPanel";
+// import ButtonAdminPanel from "./components/ButtonAdminPanel";
 
 
 function App() {
 
     const [id, setId] = useState(0)
     const [isPlaying, setIsPlaying] = useState(false)
-    const [currentTrack, setCurrentTrack] = useState(playlist[0].sound)
+    const [currentTrack, setCurrentTrack] = useState(new Audio())
     const totalDuration = currentTrack.duration
     const [completed, setCompleted] = useState(0)
     const [secondsCount, setSecondsCount] = useState(parseInt((currentTrack.currentTime).toFixed(0)))
-    const [volume, setVolume] = useState(0.8)
+    const [volume, setVolume] = useState(0.7)
+    // const [admin, setAdmin] = useState(false)
 
-
+    // REFERENCES
+    const audioRef = useRef()
     const progressBar = useRef()
 
+    // SVG HEADPHONES
+    const headphones =
+        <svg version="1.1" id="Layer_1"
+             xmlns="http://www.w3.org/2000/svg"
+             xmlnsXlink="http://www.w3.org/1999/xlink"
+             x="0px" y="0px"
+             width="18px"
+             height="18px"
+             viewBox="0 0 330 330"
+             xmlSpace="preserve"
+             fill="white">
+            <g id="XMLID_791_">
+                <path id="XMLID_792_" d="M300,175.799v-21.557c0-74.44-60.561-135-135-135s-135,60.56-135,135v21.557
+                        c-18.204,13.697-30,35.476-30,59.959c0,41.355,33.644,75,75,75c8.284,0,15-6.716,15-15v-120c0-8.284-6.716-15-15-15
+                        c-5.136,0-10.152,0.521-15,1.51v-8.025c0-57.897,47.103-105,105-105s105,47.103,105,105v8.025c-4.848-0.989-9.864-1.51-15-1.51
+                        c-8.284,0-15,6.716-15,15v120c0,8.284,6.716,15,15,15c41.355,0,75-33.645,75-75C330,211.274,318.204,189.496,300,175.799z"/>
+            </g>
+            <g>
+            </g>
+            <g>
+            </g>
+            <g>
+            </g>
+            <g>
+            </g>
+            <g>
+            </g>
+            <g>
+            </g>
+            <g>
+            </g>
+            <g>
+            </g>
+            <g>
+            </g>
+            <g>
+            </g>
+            <g>
+            </g>
+            <g>
+            </g>
+            <g>
+            </g>
+            <g>
+            </g>
+            <g>
+            </g>
+        </svg>
 
+    // FETCH FIREBASE
+    const [tracks, setTracks] = useState([])
+    const [artist, setArtist] = useState("Chargement...")
+    const [nextArtist, setNextArtist] = useState()
+    const [title, setTitle] = useState("Chargement...")
+    const [nextTitle, setNextTitle] = useState()
+    const [imgURL, setImgURL] = useState("")
+    const [soundURL, setSoundURL] = useState("")
+    // eslint-disable-next-line
+    const [duration, setDuration] = useState()
+
+
+    useEffect(() => {
+        onValue(ref(db), (snapshot) => {
+            const data = snapshot.val();
+            if (data !== null) {
+                // eslint-disable-next-line
+                Object.values([data]).map((track) => {
+                    setTracks(track);
+                    setArtist(id < track.length ? track[id].artist : track[0].artist)
+                    setTitle(id < track.length ? track[id].title : track[0].title)
+                    setNextArtist(id + 1 < track.length ? track[id + 1].artist : track[0].artist)
+                    setNextTitle(id + 1 < track.length ? track[id + 1].title : track[0].title)
+                    setImgURL(id < track.length ? track[id].imgURL : track[0].imgURL)
+                    setSoundURL(id < track.length ? track[id].soundURL : track[0].soundURL)
+                    setCurrentTrack(audioRef.current)
+                    setDuration(convertSecondstoTime(currentTrack.duration))
+                    id === 0 ? currentTrack.pause() : currentTrack.play()
+                });
+            } else {
+                console.log("Aucune donnée à afficher")
+            }
+        });
+        console.log('Prout 💨')
+    }, [id, currentTrack]);
+
+
+    // GESTION DE LA PROGRESS BAR
     const checkWidth = (e) => {
         let width = progressBar.current.clientWidth;
         const offset = e.nativeEvent.offsetX
@@ -26,47 +118,13 @@ function App() {
         currentTrack.currentTime = progress / 100 * currentTrack.duration
         setSecondsCount(currentTrack.currentTime)
         setCompleted(progress)
+        // console.log("Offset : " + offset)
+        // console.log("Progress : " + progress)
+        // console.log("Current Time : " + currentTrack.currentTime)
+        // console.log("Current Duration : " + currentTrack.duration)
     }
 
-
-    const handlePlay = () => {
-        currentTrack.play()
-        setIsPlaying(true)
-    }
-    const handlePause = () => {
-        currentTrack.pause()
-        setIsPlaying(false)
-    }
-    const handleStop = () => {
-        handlePause()
-        setSecondsCount(0)
-        currentTrack.currentTime = 0;
-        setCompleted(0)
-    }
-    const handleRewind = () => {
-        setId(id - 1)
-        setIsPlaying(true)
-        currentTrack.pause()
-        setCurrentTrack(playlist[id - 1].sound)
-        setSecondsCount(0)
-        setCompleted(0)
-        setVolume(currentTrack.volume)
-        playlist[id - 1].sound.currentTime = 0
-        playlist[id - 1].sound.play()
-    }
-    const handleForward = () => {
-        setId(id + 1)
-        setIsPlaying(true)
-        currentTrack.pause()
-        setCurrentTrack(playlist[id + 1].sound)
-        setSecondsCount(0)
-        setCompleted(0)
-        setVolume(currentTrack.volume)
-        playlist[id + 1].sound.currentTime = 0
-        playlist[id + 1].sound.play()
-    }
-
-
+    // GESTION DU TIMER
     useEffect(() => {
         const progressValue = currentTrack.currentTime / totalDuration * 100
         const interval = setInterval(() => {
@@ -76,52 +134,232 @@ function App() {
         return () => clearInterval(interval);
     }, [currentTrack.currentTime, totalDuration, isPlaying, secondsCount]);
 
+    // GESTION DU TRANSPORT (Panneau de contrôle)
+    const handlePlay = () => {
+        currentTrack.play()
+        setIsPlaying(true)
+    }
+    const handlePause = () => {
+        currentTrack.pause()
+        setIsPlaying(!isPlaying)
+    }
+    const handleStop = () => {
+        currentTrack.pause()
+        setIsPlaying(false)
+        setSecondsCount(0)
+        audioRef.current.currentTime = 0;
+        setCompleted(0)
+    }
+    const handleRewind = () => {
+        currentTrack.pause()
+        setId(id - 1)
+        setSoundURL(tracks[id - 1].soundURL)
+        setSecondsCount(0)
+        setCompleted(0)
+        setDuration(convertSecondstoTime(currentTrack.duration))
+        setIsPlaying(true)
+        setVolume(currentTrack.volume)
+        audioRef.currentTime = 0
+    }
+    const handleForward = () => {
+        currentTrack.pause()
+        if (id + 1 === tracks.length) {
+            setId(0)
+            setArtist(tracks[0].artist)
+            setTitle(tracks[0].title)
+            setNextArtist(tracks[0].artist)
+            setNextTitle(tracks[0].title)
+            setImgURL(tracks[0].imgURL)
+            setSoundURL(tracks[0].soundURL)
+            setIsPlaying(false)
+        } else {
+            setId(id + 1)
+            setSoundURL(tracks[id + 1].soundURL)
+            setSecondsCount(0)
+            setCompleted(0)
+            setDuration(convertSecondstoTime(currentTrack.duration))
+            setIsPlaying(true)
+            setVolume(currentTrack.volume)
+            currentTrack.currentTime = 0
+        }
+    }
+    const handleClickSong = (track) => {
+        setId(track.trackId)
+        setArtist(track.artist)
+        setTitle(track.title)
+        setImgURL(track.imgURL)
+        setSoundURL(track.soundURL)
+        setCurrentTrack(audioRef.current)
+        setSecondsCount(0)
+        setCompleted(0)
+        setIsPlaying(true)
+        setVolume(currentTrack.volume)
+        setDuration(convertSecondstoTime(currentTrack.duration))
+        currentTrack.play()
+    }
+
+    // ENCHAINER LES TRACKS QUAND ELLES SONT TERMINEES
+    if (currentTrack.currentTime === currentTrack.duration) {
+        currentTrack.pause()
+        setId(0)
+        setSoundURL(tracks[id].soundURL)
+        setSecondsCount(0)
+        setCompleted(0)
+        setDuration(convertSecondstoTime(currentTrack.duration))
+        setIsPlaying(false)
+        setVolume(currentTrack.volume)
+        currentTrack.currentTime = 0
+
+    }
 
 
     return (
+        <>
+            {/*<ButtonAdminPanel admin={admin} setAdmin={setAdmin}>*/}
+            {/*    Admin Panel*/}
+            {/*</ButtonAdminPanel>*/}
 
-        <div className="sm:h-screen max-w-md mx-auto bg-white md:rounded-xl md:h-auto shadow-md overflow-hidden md:max-w-2xl grid place-items-center">
-            <div className="h-full w-full md:flex">
-                <div className=" md:shrink-0">
-                    <img className="sm:h-full w-full object-cover md:h-full md:w-60 sm:w-full" src={playlist[id].cover}
-                         alt={playlist[id].artist}
-                         // onClick={() => {
-                         //     console.log(
-                         //         parseInt((currentTrack.currentTime / totalDuration * 100).toFixed(0)) + "%  Track ID : " + currentTrack.currentSrc)
-                         // }}
-                    />
-                </div>
-                <div className="md:h-full md:w-full p-8">
-                    <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{playlist[id].artist}</div>
-                    <div className="block mt-1 text-lg leading-tight font-medium text-black">{playlist[id].title}</div>
+            <div className="
+                    sm:h-screen
+                    md:h-80
+                    md:rounded-xl
+                    md:min-w-[850px]
+                    {/*max-w-md*/}
+                    mx-auto
+                    bg-white
+                    shadow-md
+                    overflow-hidden
+                    box-shadow4">
 
-                    {/*PROGRESS BAR*/}
-                    <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 my-5 cursor-pointer"
-                         ref={progressBar}
-                         onClick={checkWidth}>
-                        <div className="bg-indigo-500 h-2.5 rounded-full"
-                             style={{width: `${completed}%`}}
-                        ></div>
+                <div className="h-full w-full md:flex">
+
+                    <div className="md:shrink-0 md:w-80">
+                        <img className="sm:h-full w-full object-cover md:h-full sm:w-full"
+                             style={{filter: "brightness(90%) contrast(95%) grayscale(50%)"}}
+                             src={imgURL}
+                             alt={artist}
+                             onClick={() => console.log(convertSecondstoTime(secondsCount))}/>
+                        <audio ref={audioRef} preload="auto" src={soundURL}></audio>
                     </div>
-                    {/*TIME PANEL*/}
-                    <div className="font-mono">{convertSecondstoTime(secondsCount)}</div>
 
-                    {/*CONTROL PANEL*/}
-                    <ControlPanel
-                        play={handlePlay}
-                        pause={handlePause}
-                        stop={handleStop}
-                        rewind={handleRewind}
-                        forward={handleForward}
-                        isPlaying={isPlaying}/>
+                    <div className="md:h-full md:w-full md:p-8 sm:p-6">
+                        <div className="uppercase tracking-wide sm:text-xl text-main font-semibold">
+                            {artist}
+                        </div>
+                        {title.length < 20
+                            ? <div className="h-10 sm:text-xl">
+                                <div data-text={title}>
+                                    <span>
+                                        {title} {!currentTrack.duration
+                                        ? ""
+                                        : <em className="text-xs text-main">
+                                            ({convertSecondstoTime(currentTrack.duration)})
+                                        </em>}
+                                    </span>
+                                </div>
+                            </div>
+                            : <div className="messagedefilant h-10 sm:text-xl">
+                                <div data-text={title}>
+                                    <span>
+                                        {title} {!currentTrack.duration
+                                        ? ""
+                                        : <em className="text-xs text-main">
+                                            ({convertSecondstoTime(currentTrack.duration)})
+                                        </em>}
+                                    </span>
+                                </div>
+                            </div>
+                        }
+
+                        {/*PROGRESS BAR*/}
+                        <div className="w-full bg-main-light rounded-full h-2.5 dark:bg-gray-700 my-5 cursor-pointer"
+                             ref={progressBar}
+                             onClick={checkWidth}>
+                            <div className="bg-main h-2.5 rounded-full" style={{width: `${completed}%`}}></div>
+                        </div>
+
+                        {/*TIME PANEL*/}
+                        <div className="font-mono text-lg">{convertSecondstoTime(secondsCount)}</div>
+
+                        {/*CONTROL PANEL*/}
+                        <ControlPanel
+                            play={handlePlay}
+                            pause={handlePause}
+                            stop={handleStop}
+                            rewind={handleRewind}
+                            forward={handleForward}
+                            isPlaying={isPlaying}
+                            tracks={tracks}
+                            id={id}/>
 
 
-                    {/*VOLUME BAR*/}
-                    <VolumeModule currentTrack={currentTrack} volume={volume} setVolume={setVolume}/>
+                        {/*VOLUME BAR*/}
+                        <VolumeModule currentTrack={currentTrack} volume={volume} setVolume={setVolume}/>
 
+                        <h3 className="py-1 italic text-xs" id="nextSong">Next song : {nextArtist} - {nextTitle}</h3>
+                    </div>
                 </div>
             </div>
-        </div>
+            {/*{admin ? <AdminPanel*/}
+            {/*    tracksNumber={tracks.length}*/}
+            {/*    id={id}*/}
+            {/*    setId={setId}*/}
+            {/*    artist={artist}*/}
+            {/*    setArtist={setArtist}*/}
+            {/*    title={title}*/}
+            {/*    setTitle={setTitle}*/}
+            {/*    imgURL={imgURL}*/}
+            {/*    setImgURL={setImgURL}*/}
+            {/*    soundURL={soundURL}*/}
+            {/*    setSoundURL={setSoundURL}*/}
+            {/*/> : ""}*/}
+
+            <div className="flex justify-center align-middle
+            md:mt-10
+            sm:mt-0
+            md:bg-white
+            sm:w-full
+            md:text-xl
+            sm:text-sm
+            mx-auto
+            md:w-[850px]
+            md:rounded-xl
+            py-4
+            md:px-2
+            h-auto">
+                <ul>
+                    <h2 className="uppercase text-4xl text-main font-bold font-[Sono] pb-4 text-center">
+                        Playlist
+                    </h2>
+                    {tracks.map((track) => (
+                        <div key={track.trackId} className="flex min-w-max relative">
+                            <li onClick={() => handleClickSong(track)}
+                                className="min-w-full text-white text-base rounded-xl
+                                            bg-main
+                                            py-2
+                                            px-3
+                                            my-2
+                                            hover:text-blue-700
+                                            hover:bg-white
+                                            hover:text-main
+                                            hover:cursor-pointer
+                                            hover:duration-500
+                                            hover:ease-out">
+                                <strong>{track.artist}</strong> - {track.title}
+                            </li>
+                            {id === track.trackId && isPlaying
+                                ? <div className="flex flex-col justify-center items-center h-8 w-8 rounded-full bg-red absolute
+                                md:-right-4 md:-top-1
+                                sm: right-0 md:-top-1 image-clignote text-xs
+                                text-white">
+                                    {headphones}
+                                </div>
+                                : ""}
+                        </div>
+                    ))}
+                </ul>
+            </div>
+        </>
 
     );
 }
