@@ -13,7 +13,7 @@ const ButtonShowPlaylist = () => {
                 text-base
                 px-8
                 py-4
-                mb-3
+                mb-2
                 rounded
                 outline-none
                 focus:outline-none
