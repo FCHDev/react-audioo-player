@@ -106,7 +106,7 @@ function App() {
                 console.log("Aucune donnée à afficher")
             }
         });
-        console.log('Prout 💨')
+        // console.log('Prout 💨')
     }, [id, currentTrack, isPlaying]);
 
 
@@ -200,13 +200,13 @@ function App() {
 
     // ENCHAINER LES TRACKS QUAND ELLES SONT TERMINEES
     if (currentTrack.currentTime === currentTrack.duration) {
-        currentTrack.pause()
-        setId(0)
-        setSoundURL(tracks[id].soundURL)
+        // currentTrack.play()
+        setId(id + 1)
+        setSoundURL(tracks[id + 1].soundURL)
         setSecondsCount(0)
         setCompleted(0)
         setDuration(convertSecondstoTime(currentTrack.duration))
-        setIsPlaying(false)
+        setIsPlaying(true)
         setVolume(currentTrack.volume)
         currentTrack.currentTime = 0
 
@@ -293,12 +293,10 @@ function App() {
                         <VolumeModule currentTrack={currentTrack} volume={volume} setVolume={setVolume}/>
 
                         {/*NEXT TRACK */}
-                        <div className="messagedefilant">
-                            <div data-text={"Next song : " + {nextArtist} + " - " + {nextTitle}}>
-                                <span className="py-1 italic text-xs" id="nextSong">
+                        <div className="md:block">
+                                <span className="md:py-1 sm:py-6 italic md:text-xs sm:text-base h-5 text-main" id="nextSong">
                                     Next song : {nextArtist} {nextTitle}
                                 </span>
-                            </div>
                         </div>
 
                     </div>
@@ -330,7 +328,8 @@ function App() {
             md:rounded-xl
             py-4
             md:px-2
-            h-auto">
+            md:h-auto
+            sm:min-h-screen">
                 <ul>
                     <h2 className="uppercase text-4xl text-main font-bold font-[Sono] pb-4 text-center">
                         Playlist

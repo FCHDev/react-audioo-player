@@ -54,7 +54,7 @@ body {
         box-shadow: none;
     }
 
-    #admin-panel, #volume, #nextSong {
+    #admin-panel, #volume {
         display: none;
     }
 
@@ -62,7 +62,7 @@ body {
     .messagedefilant {
         display: block;
         padding: 0;
-        overflow: hidden;
+        /*overflow: hidden;*/
         position: relative;
         width: 100%;
         max-width: 640px;
