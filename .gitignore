@@ -17,7 +17,7 @@
 .env.development.local
 .env.test.local
 .env.production.local
-src/components/AdminPanel.j
+src/components/AdminPanel.js
 src/components/ButtonAdminPanel.js
 
 npm-debug.log*
