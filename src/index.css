@@ -48,6 +48,12 @@ body {
     100% { opacity:1; }
 }
 
+@media screen and (min-width: 768px){
+    #show-playlist {
+        display: none;
+    }
+}
+
 
 @media screen and (max-width: 768px) {
     .box-shadow1, .box-shadow2, .box-shadow3, .box-shadow4 {

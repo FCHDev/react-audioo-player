@@ -13,12 +13,14 @@ const VolumeModule = ({currentTrack, volume}) => {
     }
 
     return (
-        <div className="mt-5 flex" id="volume">
+        <div className="mt-0 flex" id="volume">
             <label htmlFor="default-range"
-                   className="mt-1 mr-4 block text-sm font-medium text-main font-bold">{(volumeProgress*100).toFixed(0)}%</label>
+                   className="mt-0 mr-4 block text-sm font-medium text-main font-bold">
+                {(volumeProgress*100).toFixed(0)}%
+            </label>
             <input id="default-range" type="range"
                    defaultValue={70}
-                   className="mt-3 w-full h-1 bg-main-light rounded-lg appearance-none cursor-pointer thumb"
+                   className="mt-2 w-full h-1 bg-main-light rounded-lg appearance-none cursor-pointer thumb"
                    ref={volumeRef}
                    onChange={volumeWidth}/>
         </div>

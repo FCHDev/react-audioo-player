@@ -4,6 +4,8 @@ import VolumeModule from "./components/VolumeModule";
 import convertSecondstoTime from "./functions/convertSecondsToTime";
 import {onValue, ref} from "firebase/database";
 import {db} from "./config/firebase-config";
+import ButtonShowPlaylist from "./components/ButtonShowPlaylist";
+import ScrollToTop from "react-scroll-to-top";
 // import ButtonAdminPanel from "./components/ButtonAdminPanel";
 // import AdminPanel from "./components/AdminPanel";
 
@@ -16,6 +18,7 @@ function App() {
     const totalDuration = currentTrack.duration
     const [completed, setCompleted] = useState(0)
     const [secondsCount, setSecondsCount] = useState(parseInt((currentTrack.currentTime).toFixed(0)))
+    const [secondsDecount, setSecondsDecount] = useState(totalDuration)
     const [volume, setVolume] = useState(0.7)
     // const [admin, setAdmin] = useState(false)
 
@@ -99,6 +102,7 @@ function App() {
                     setImgURL(id < track.length ? track[id].imgURL : track[0].imgURL)
                     setSoundURL(id < track.length ? track[id].soundURL : track[0].soundURL)
                     setCurrentTrack(audioRef.current)
+                    setSecondsDecount(totalDuration)
                     setDuration(convertSecondstoTime(currentTrack.duration))
                     isPlaying ? currentTrack.play() : currentTrack.pause()
                 });
@@ -107,7 +111,7 @@ function App() {
             }
         });
         // console.log('Prout 💨')
-    }, [id, currentTrack, isPlaying]);
+    }, [id, currentTrack, isPlaying, totalDuration]);
 
 
     // GESTION DE LA PROGRESS BAR
@@ -117,22 +121,30 @@ function App() {
         const progress = offset / width * 100
         currentTrack.currentTime = progress / 100 * currentTrack.duration
         setSecondsCount(currentTrack.currentTime)
+        setSecondsDecount(currentTrack.duration - currentTrack.currentTime)
         setCompleted(progress)
-        // console.log("Offset : " + offset)
-        // console.log("Progress : " + progress)
-        // console.log("Current Time : " + currentTrack.currentTime)
-        // console.log("Current Duration : " + currentTrack.duration)
     }
 
     // GESTION DU TIMER
+    // 1. COMPTEUR
     useEffect(() => {
         const progressValue = currentTrack.currentTime / totalDuration * 100
         const interval = setInterval(() => {
             setCompleted(progressValue);
             isPlaying && currentTrack.duration ? setSecondsCount(secondsCount + 1) : setSecondsCount(secondsCount)
         }, 1000);
+
         return () => clearInterval(interval);
     }, [currentTrack.currentTime, currentTrack.duration, totalDuration, isPlaying, secondsCount]);
+
+    // 2. COMPTE À REBOURS
+    useEffect(() => {
+        const interval = setInterval(() => {
+            isPlaying && currentTrack.duration ? setSecondsDecount(secondsDecount - 1) : setSecondsDecount(secondsDecount)
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [currentTrack.duration, isPlaying, secondsDecount]);
 
     // GESTION DU TRANSPORT (Panneau de contrôle)
     const handlePlay = () => {
@@ -155,6 +167,7 @@ function App() {
         setId(id - 1)
         setSoundURL(tracks[id - 1].soundURL)
         setSecondsCount(0)
+        setSecondsDecount(convertSecondstoTime(currentTrack.duration))
         setCompleted(0)
         setDuration(convertSecondstoTime(currentTrack.duration))
         setIsPlaying(true)
@@ -176,6 +189,7 @@ function App() {
             setId(id + 1)
             setSoundURL(tracks[id + 1].soundURL)
             setSecondsCount(0)
+            setSecondsDecount(convertSecondstoTime(currentTrack.duration))
             setCompleted(0)
             setDuration(convertSecondstoTime(currentTrack.duration))
             setIsPlaying(true)
@@ -191,6 +205,7 @@ function App() {
         setSoundURL(track.soundURL)
         setCurrentTrack(audioRef.current)
         setSecondsCount(0)
+        setSecondsDecount(convertSecondstoTime(currentTrack.duration))
         setCompleted(0)
         setIsPlaying(true)
         setVolume(currentTrack.volume)
@@ -224,7 +239,6 @@ function App() {
                     md:h-80
                     md:rounded-xl
                     md:min-w-[850px]
-                    {/*max-w-md*/}
                     mx-auto
                     bg-white
                     shadow-md
@@ -246,17 +260,11 @@ function App() {
                         <div className="uppercase tracking-wide sm:text-xl text-main font-semibold">
                             {artist}
                         </div>
-                        {title.length < 20
+                        {title.length < 30
                             ? <div className="h-10 sm:text-xl">
-                                <div data-text={title}>
                                     <span>
-                                        {title} {!currentTrack.duration
-                                        ? ""
-                                        : <em className="text-xs text-main">
-                                            ({convertSecondstoTime(currentTrack.duration)})
-                                        </em>}
+                                        {title}
                                     </span>
-                                </div>
                             </div>
                             : <div className="messagedefilant h-10 sm:text-xl">
                                 <div data-text={""}>
@@ -275,7 +283,14 @@ function App() {
                         </div>
 
                         {/*TIME PANEL*/}
-                        <div className="font-mono text-lg">{convertSecondstoTime(secondsCount)}</div>
+                        <div className="flex justify-between">
+                            <div
+                                className="font-mono text-lg text-main font-bold">{convertSecondstoTime(secondsCount)}</div>
+                            <div className="font-mono text-lg">{secondsDecount
+                                ? "-" + convertSecondstoTime(secondsDecount)
+                                : ""}</div>
+                        </div>
+
 
                         {/*CONTROL PANEL*/}
                         <ControlPanel
@@ -292,9 +307,13 @@ function App() {
                         {/*VOLUME BAR*/}
                         <VolumeModule currentTrack={currentTrack} volume={volume} setVolume={setVolume}/>
 
+                        {/*SHOW PLAYLIST*/}
+                        <ButtonShowPlaylist/>
+
                         {/*NEXT TRACK */}
                         <div className="md:block">
-                                <span className="md:py-1 sm:py-6 italic md:text-xs sm:text-base h-5 text-main" id="nextSong">
+                                <span className="md:py-0 sm:py-6 italic md:text-xs sm:text-base h-5 text-main"
+                                      id="nextSong">
                                     Next song : {nextArtist} {nextTitle}
                                 </span>
                         </div>
@@ -328,10 +347,11 @@ function App() {
             md:rounded-xl
             py-4
             md:px-2
-            md:h-auto
-            sm:min-h-screen">
+            md:h-max
+            ">
                 <ul>
-                    <h2 className="uppercase text-4xl text-main font-bold font-[Sono] pb-4 text-center">
+                    <h2 className="uppercase text-4xl text-main font-bold font-[Sono] pb-4 text-center"
+                        id="playlist">
                         Playlist
                     </h2>
                     {tracks.map((track) => (
@@ -362,6 +382,7 @@ function App() {
                     ))}
                 </ul>
             </div>
+            <ScrollToTop style={{paddingLeft: "6px"}} smooth={true}/>
         </>
 
     );

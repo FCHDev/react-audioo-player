@@ -19,7 +19,7 @@ const ControlPanel = ({play, pause, stop, isPlaying, forward, rewind, tracks, id
             onClick={pause}/>
 
     return (
-        <div className="flex justify-evenly w-full pl-0 sm:mt-14 md:mt-3 md:mb-4 sm:mb-8">
+        <div className="flex justify-evenly w-full pl-0 sm:mt-10 md:mt-3 md:mb-4 sm:mb-5">
 
             {id === 0
                 ? <BsFillSkipStartFill className="w-12 h-12 text-main-light"/>
