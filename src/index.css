@@ -64,6 +64,9 @@ body {
         display: none;
     }
 
+    .sizePlaylist {
+        min-height: 100vh;
+    }
     /* Texte défilant */
     .messagedefilant {
         display: block;

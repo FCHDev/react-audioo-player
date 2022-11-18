@@ -348,6 +348,7 @@ function App() {
             py-4
             md:px-2
             md:h-max
+            sizePlaylist
             ">
                 <ul>
                     <h2 className="uppercase text-4xl text-main font-bold font-[Sono] pb-4 text-center"
