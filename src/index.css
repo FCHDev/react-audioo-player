@@ -99,7 +99,7 @@ body {
 
     @keyframes defilement2 {
         0% { margin-left: 100%; }
-        100% { margin-left: 0%; }
+        100% { margin-left: 0; }
     }
 
 }

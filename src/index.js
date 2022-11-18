@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <div className="h-screen md:grid md:columns-1 md:content-center">
+    <div className="min-h-screen md:grid md:columns-1 md:content-center">
         <App/>
     </div>
 );

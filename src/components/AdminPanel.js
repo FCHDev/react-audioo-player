@@ -128,7 +128,6 @@ const AdminPanel = ({tracksNumber, setArtist, setTitle, artist, title, imgURL, s
                         type="file"
                         onChange={(event) => {
                             setSoundUpload(event.target.files[0])
-                            console.log(soundUpload);
                         }}
                         className="cursor-pointer"
                     />{" "}

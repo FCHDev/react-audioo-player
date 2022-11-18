@@ -6,7 +6,6 @@ import {onValue, ref} from "firebase/database";
 import {db} from "./config/firebase-config";
 // import ButtonAdminPanel from "./components/ButtonAdminPanel";
 // import AdminPanel from "./components/AdminPanel";
-// import ButtonAdminPanel from "./components/ButtonAdminPanel";
 
 
 function App() {
@@ -94,20 +93,21 @@ function App() {
                     setTracks(track);
                     setArtist(id < track.length ? track[id].artist : track[0].artist)
                     setTitle(id < track.length ? track[id].title : track[0].title)
-                    setNextArtist(id + 1 < track.length ? track[id + 1].artist : track[0].artist)
-                    setNextTitle(id + 1 < track.length ? track[id + 1].title : track[0].title)
+                    setNextArtist(id + 1 < track.length ? `${track[id + 1].artist} - ` :
+                        <span className="text-main font-bold image-clignote">=== END OF PLAYLIST ===</span>)
+                    setNextTitle(id + 1 < track.length ? track[id + 1].title : "")
                     setImgURL(id < track.length ? track[id].imgURL : track[0].imgURL)
                     setSoundURL(id < track.length ? track[id].soundURL : track[0].soundURL)
                     setCurrentTrack(audioRef.current)
                     setDuration(convertSecondstoTime(currentTrack.duration))
-                    id === 0 ? currentTrack.pause() : currentTrack.play()
+                    isPlaying ? currentTrack.play() : currentTrack.pause()
                 });
             } else {
                 console.log("Aucune donnée à afficher")
             }
         });
         console.log('Prout 💨')
-    }, [id, currentTrack]);
+    }, [id, currentTrack, isPlaying]);
 
 
     // GESTION DE LA PROGRESS BAR
@@ -132,7 +132,7 @@ function App() {
             isPlaying && currentTrack.duration ? setSecondsCount(secondsCount + 1) : setSecondsCount(secondsCount)
         }, 1000);
         return () => clearInterval(interval);
-    }, [currentTrack.currentTime, totalDuration, isPlaying, secondsCount]);
+    }, [currentTrack.currentTime, currentTrack.duration, totalDuration, isPlaying, secondsCount]);
 
     // GESTION DU TRANSPORT (Panneau de contrôle)
     const handlePlay = () => {
@@ -259,13 +259,9 @@ function App() {
                                 </div>
                             </div>
                             : <div className="messagedefilant h-10 sm:text-xl">
-                                <div data-text={title}>
+                                <div data-text={""}>
                                     <span>
-                                        {title} {!currentTrack.duration
-                                        ? ""
-                                        : <em className="text-xs text-main">
-                                            ({convertSecondstoTime(currentTrack.duration)})
-                                        </em>}
+                                        {title + " "}
                                     </span>
                                 </div>
                             </div>
@@ -296,7 +292,15 @@ function App() {
                         {/*VOLUME BAR*/}
                         <VolumeModule currentTrack={currentTrack} volume={volume} setVolume={setVolume}/>
 
-                        <h3 className="py-1 italic text-xs" id="nextSong">Next song : {nextArtist} - {nextTitle}</h3>
+                        {/*NEXT TRACK */}
+                        <div className="messagedefilant">
+                            <div data-text={"Next song : " + {nextArtist} + " - " + {nextTitle}}>
+                                <span className="py-1 italic text-xs" id="nextSong">
+                                    Next song : {nextArtist} {nextTitle}
+                                </span>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -318,7 +322,7 @@ function App() {
             md:mt-10
             sm:mt-0
             md:bg-white
-            sm:w-full
+            sm:w-5/6
             md:text-xl
             sm:text-sm
             mx-auto
@@ -332,9 +336,9 @@ function App() {
                         Playlist
                     </h2>
                     {tracks.map((track) => (
-                        <div key={track.trackId} className="flex min-w-max relative">
+                        <div key={track.trackId} className="flex min-w-full mx-auto relative">
                             <li onClick={() => handleClickSong(track)}
-                                className="min-w-full text-white text-base rounded-xl
+                                className="w-full text-white text-base rounded-xl
                                             bg-main
                                             py-2
                                             px-3
