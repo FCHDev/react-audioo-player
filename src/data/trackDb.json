@@ -1,0 +1,93 @@
+[
+  {
+    "artist": "Laurent Garnier",
+    "imgURL": "images/laurentgarnier.jpeg33844f09-b4ce-43a1-a053-d877becb5715?alt=media&token=a19c75ed-3e33-40df-9864-c462d0c4594d",
+    "soundURL": "sounds/TheManWiththeRedFace.mp3226b2d26-2659-4474-9f7f-c256693009ea",
+    "title": "The man with the red face",
+    "trackId": 0
+  },
+  {
+    "artist": "Nathan Fake",
+    "imgURL": "images/pink.jpgc771328c-89da-4b25-b4c5-7d9d86dde481?alt=media&token=5c99a31c-da35-4f04-9dc0-2ff10641b5a7",
+    "soundURL": "sounds/Nathan%20Fake%20-%20The%20Sky%20Was%20Pink%20(James%20Holden%20remix).mp34e9481cb-6605-47c6-b0d1-b37b53bdb958",
+    "title": "The Sky Was Pink (James Holden)",
+    "trackId": 1
+  },
+  {
+    "artist": "Joris Delacroix",
+    "imgURL": "images/subtil.jpgbdc82808-bc1c-4966-8e1a-6d76f4a89131?alt=media&token=bfe36347-8837-4032-8c59-0ac1977f7185",
+    "soundURL": "sounds/Joris Delacroix - Subtil.mp3285b83d9-28c1-4d51-bfbf-6dfb741926a1",
+    "title": "Subtil",
+    "trackId": 2
+  },
+  {
+    "artist": "Oxia",
+    "imgURL": "images/oxia.jpg7f4e7880-2b24-44b1-bff2-66061d091539?alt=media&token=794c9ae8-a817-4e36-8b77-58f9320bcc07",
+    "soundURL": "sounds/OxiaDomino.mp358cfa61e-82ac-4634-aef5-8fb2c3afc1cc",
+    "title": "Domino",
+    "trackId": 3
+  },
+  {
+    "artist": "NTO",
+    "imgURL": "images/ntoclechamp.jpg27412b45-d079-4c79-8b8f-9e02e7295e06?alt=media&token=34867f60-361e-42a6-bda7-db661387080d",
+    "soundURL": "sounds/NtoLaCleDesChamps.mp39ac745a7-8d87-4e57-b8f0-4558952e6002",
+    "title": "La clé des champs",
+    "trackId": 4
+  },
+  {
+    "artist": "Jon Hopkins",
+    "imgURL": "images/hopkinseverythingisconnected.jpg6795d8f8-2662-45fb-8c6a-d9cd38bc4a3a?alt=media&token=d46d373a-b89e-4264-80ff-3a242431b7aa",
+    "soundURL": "sounds/JonHopkins-EverythingConnected.mp33cfc762e-f0e8-4845-ae6f-3045d64c89b7",
+    "title": "Everything is connected",
+    "trackId": 5
+  },
+  {
+    "artist": "N O H A",
+    "imgURL": "images/noha.jpegb755fb4b-6e40-4c37-80ac-37f0d502413d?alt=media&token=43298d8b-361d-4610-ad44-9ed2fc1c206a",
+    "soundURL": "sounds/NOHA-BalkanHotStep.mp31db3a0d3-b511-43d7-a315-c3e0e83accef",
+    "title": "Balkan hot step",
+    "trackId": 6
+  },
+  {
+    "artist": "Stephan Crown",
+    "imgURL": "images/amnesia.jpg83f436ef-05e5-49a1-987a-c03bc59f3e74?alt=media&token=be6cf700-78fd-4d98-9e08-d72955512b9f",
+    "soundURL": "sounds/StephanCrownAmnesia(Club Mix).mp30cfd6332-c06f-49a0-8e49-07cf83dbf868",
+    "title": "Amnesia (Club Mix)",
+    "trackId": 7
+  },
+  {
+    "artist": "NTO",
+    "imgURL": "images/time.jpgde5977e0-6bbb-4ec0-8d3b-e6d3c60a0296?alt=media&token=736158da-1339-41bb-96cc-ba598d4d3deb",
+    "soundURL": "sounds/NtoTime.mp31132de3f-3eb3-4db0-b966-7a501ab01614",
+    "title": "Time",
+    "trackId": 8
+  },
+  {
+    "artist": "Paul Kalkbrenner",
+    "imgURL": "images/kalkbrenner.png8fc1a456-3437-46e2-b5d4-a4a4b8257fe9?alt=media&token=60ef5687-dc3b-49d2-bb19-3532173edfc8",
+    "soundURL": "sounds/DasGezabel.mp3ea22c4c9-6364-41aa-b981-e9f0399b922a",
+    "title": "Das Gezabel",
+    "trackId": 9
+  },
+  {
+    "artist": "Nu",
+    "imgURL": "images/numanoto.jpg15433c1c-1d87-477d-b5fc-7592075d1a48?alt=media&token=7cf7ee73-81b6-4327-912b-ec7e592b5628",
+    "soundURL": "sounds/Nu-MANOTO(Original Mix).mp3c22baf80-fbd1-4227-9a9a-5508f395c3d7",
+    "title": "Man O To (Original Mix)",
+    "trackId": 10
+  },
+  {
+    "artist": "Ryan Mathiesen",
+    "imgURL": "images/nothingnew.jpg01a7332e-c3b5-4d9b-9c49-c092d2433c8f?alt=media&token=32f61211-c385-4a0f-9520-58c8ae32e880",
+    "soundURL": "sounds/RyanMathiesen-NothingNew(NiconeRatterloopboxCut).mp3c46e79a6-c2c1-4a52-a383-7b8f26159c39",
+    "title": "Nothing New (Nicone Ratterloopbox Cut)",
+    "trackId": 11
+  },
+  {
+    "artist": "Lumoon & Rob!n",
+    "imgURL": "images/ab67616d0000b27341bdc98e1cefbc260d8c6c1e.jpeg",
+    "soundURL": "sounds/Lumoon&Rob!n-Classique(OriginalMix).mp3kjhslkjdhfh8ih_jkjd",
+    "title": "Classique (Original Mix)",
+    "trackId": 12
+  }
+]

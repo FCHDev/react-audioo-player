@@ -2,10 +2,11 @@ import ControlPanel from "./components/ControlPanel";
 import React, {useEffect, useRef, useState} from "react";
 import VolumeModule from "./components/VolumeModule";
 import convertSecondstoTime from "./functions/convertSecondsToTime";
-import {onValue, ref} from "firebase/database";
-import {db} from "./config/firebase-config";
+// import {onValue, ref} from "firebase/database";
+// import {db} from "./config/firebase-config";
 import ButtonShowPlaylist from "./components/ButtonShowPlaylist";
 import ScrollToTop from "react-scroll-to-top";
+import trackDb from "./data/trackDb.json"
 // import ButtonAdminPanel from "./components/ButtonAdminPanel";
 // import AdminPanel from "./components/AdminPanel";
 
@@ -88,30 +89,55 @@ function App() {
 
 
     useEffect(() => {
-        onValue(ref(db), (snapshot) => {
-            const data = snapshot.val();
-            if (data !== null) {
-                // eslint-disable-next-line
-                Object.values([data]).map((track) => {
-                    setTracks(track);
-                    setArtist(id < track.length ? track[id].artist : track[0].artist)
-                    setTitle(id < track.length ? track[id].title : track[0].title)
-                    setNextArtist(id + 1 < track.length ? `${track[id + 1].artist} - ` :
-                        <span className="text-main font-bold image-clignote">=== END OF PLAYLIST ===</span>)
-                    setNextTitle(id + 1 < track.length ? track[id + 1].title : "")
-                    setImgURL(id < track.length ? track[id].imgURL : track[0].imgURL)
-                    setSoundURL(id < track.length ? track[id].soundURL : track[0].soundURL)
-                    setCurrentTrack(audioRef.current)
-                    setSecondsDecount(totalDuration)
-                    setDuration(convertSecondstoTime(currentTrack.duration))
-                    isPlaying ? currentTrack.play() : currentTrack.pause()
-                });
-            } else {
-                console.log("Aucune donnée à afficher")
-            }
-        });
-        // console.log('Prout 💨')
+        // onValue(ref(db), (snapshot) => {
+        //     const data = snapshot.val();
+        //     if (data !== null) {
+        //         // eslint-disable-next-line
+        //         Object.values([data]).map((track) => {
+        //             setTracks(track);
+        //             console.log(track)
+        //             setArtist(id < track.length ? track[id].artist : track[0].artist)
+        //             setTitle(id < track.length ? track[id].title : track[0].title)
+        //             setNextArtist(id + 1 < track.length ? `${track[id + 1].artist} - ` :
+        //                 <span className="text-main font-bold image-clignote">=== END OF PLAYLIST ===</span>)
+        //             setNextTitle(id + 1 < track.length ? track[id + 1].title : "")
+        //             setImgURL(id < track.length ? track[id].imgURL : track[0].imgURL)
+        //             setSoundURL(id < track.length ? track[id].soundURL : track[0].soundURL)
+        //             setCurrentTrack(audioRef.current)
+        //             setSecondsDecount(totalDuration)
+        //             setDuration(convertSecondstoTime(currentTrack.duration))
+        //             isPlaying ? currentTrack.play() : currentTrack.pause()
+        //         });
+        //         console.log(data)
+        //     } else {
+        //         console.log("Aucune donnée à afficher")
+        //     }
+        // });
+        // // console.log('Prout 💨')
+        const data = [trackDb]
+        // console.log(tracks)
+
+        // eslint-disable-next-line
+        data.map(track => {
+            setTracks(track);
+            console.log(track)
+            setArtist(id < track.length ? track[id].artist : track[0].artist)
+            setTitle(id < track.length ? track[id].title : track[0].title)
+            setNextArtist(id + 1 < track.length ? `${track[id + 1].artist} - ` :
+                <span className="text-main font-bold image-clignote">=== END OF PLAYLIST ===</span>)
+            setNextTitle(id + 1 < track.length ? track[id + 1].title : "")
+            setImgURL(id < track.length ? track[id].imgURL : track[0].imgURL)
+            setSoundURL(id < track.length ? track[id].soundURL : track[0].soundURL)
+            setCurrentTrack(audioRef.current)
+            setSecondsDecount(totalDuration)
+            setDuration(convertSecondstoTime(currentTrack.duration))
+            isPlaying ? currentTrack.play() : currentTrack.pause()
+        })
     }, [id, currentTrack, isPlaying, totalDuration]);
+
+    // id, currentTrack, isPlaying, totalDuration
+
+    // console.log(tracks)
 
 
     // GESTION DE LA PROGRESS BAR
