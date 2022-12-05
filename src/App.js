@@ -338,7 +338,7 @@ function App() {
 
                         {/*NEXT TRACK */}
                         <div className="md:block">
-                                <span className="md:py-0 sm:py-6 italic md:text-xs sm:text-base h-5 text-main"
+                                <span className="md:py-0 py-4 italic text-xs h-5 text-main"
                                       id="nextSong">
                                     Next song : {nextArtist} {nextTitle}
                                 </span>
