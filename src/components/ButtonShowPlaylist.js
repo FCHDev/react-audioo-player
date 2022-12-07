@@ -3,7 +3,7 @@ import { Link } from 'react-scroll'
 
 const ButtonShowPlaylist = () => {
     return (
-        <div className="flex justify-center sm:mb-3">
+        <div className="md:flex justify-center sm:mb-3">
             <button className="
                 bg-main
                 text-white

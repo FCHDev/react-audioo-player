@@ -2,7 +2,6 @@ import ControlPanel from "./components/ControlPanel";
 import React, {useEffect, useRef, useState} from "react";
 import VolumeModule from "./components/VolumeModule";
 import convertSecondstoTime from "./functions/convertSecondsToTime";
-import ButtonShowPlaylist from "./components/ButtonShowPlaylist";
 import cancel from "./assets/svg/cancel.svg"
 import ScrollToTop from "react-scroll-to-top";
 import trackDb from "./data/trackDb.json"
@@ -257,7 +256,6 @@ function App() {
     }
 
 
-
     return (
         <>
             {/*<ButtonAdminPanel admin={admin} setAdmin={setAdmin}>*/}
@@ -406,9 +404,6 @@ function App() {
 
                         {/*VOLUME BAR*/}
                         <VolumeModule currentTrack={currentTrack} volume={volume} setVolume={setVolume}/>
-
-                        {/*SHOW PLAYLIST*/}
-                        <ButtonShowPlaylist/>
 
                         {/*NEXT TRACK */}
                         <div className="md:block">
