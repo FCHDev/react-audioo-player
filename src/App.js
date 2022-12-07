@@ -287,7 +287,7 @@ function App() {
             </div>
 
             <div
-                className={`md:hidden absolute ${!playlistVisible ? "-right-full duration-1000" : "right-0 duration-1000"} 
+                className={`md:hidden absolute ${!playlistVisible ? "-right-full duration-800" : "right-0 duration-800"} 
                 flex flex-col items-center justify-center min-h-screen w-screen bg-transparent z-10 px-1`}>
                 <button className="
                 h-[50px] w-[50px]
@@ -343,7 +343,7 @@ function App() {
                     box-shadow4">
 
                 <div
-                    className={`${playlistVisible ? "blur-2xl duration-1000 backdrop-brightness-0 opacity-100" : "duration-700"} h-screen md:h-full w-full md:flex`}>
+                    className={`${playlistVisible ? "blur-2xl duration-800 backdrop-brightness-0 opacity-100" : "duration-700"} h-screen md:h-full w-full md:flex`}>
 
                     <div className="md:shrink-0 md:w-80">
                         <img className="w-full object-cover h-full"
