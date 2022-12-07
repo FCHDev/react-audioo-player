@@ -6,7 +6,11 @@ import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <div className="min-h-screen md:grid md:columns-1 md:content-center">
+    <div className="
+    md:py-3
+    md:grid
+    md:columns-1
+    md:content-center">
         <App/>
     </div>
 );

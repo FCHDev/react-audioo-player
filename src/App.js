@@ -2,17 +2,20 @@ import ControlPanel from "./components/ControlPanel";
 import React, {useEffect, useRef, useState} from "react";
 import VolumeModule from "./components/VolumeModule";
 import convertSecondstoTime from "./functions/convertSecondsToTime";
-// import {onValue, ref} from "firebase/database";
-// import {db} from "./config/firebase-config";
 import ButtonShowPlaylist from "./components/ButtonShowPlaylist";
+import cancel from "./assets/svg/cancel.svg"
 import ScrollToTop from "react-scroll-to-top";
 import trackDb from "./data/trackDb.json"
 // import ButtonAdminPanel from "./components/ButtonAdminPanel";
 // import AdminPanel from "./components/AdminPanel";
 
+// import {db} from "./config/firebase-config";
+// import {onValue, ref} from "firebase/database";
+
 
 function App() {
 
+    // STATES
     const [id, setId] = useState(0)
     const [isPlaying, setIsPlaying] = useState(false)
     const [currentTrack, setCurrentTrack] = useState(new Audio())
@@ -21,6 +24,7 @@ function App() {
     const [secondsCount, setSecondsCount] = useState(parseInt((currentTrack.currentTime).toFixed(0)))
     const [secondsDecount, setSecondsDecount] = useState(totalDuration)
     const [volume, setVolume] = useState(0.7)
+    const [playlistVisible, setPlaylistVisible] = useState(false)
     // const [admin, setAdmin] = useState(false)
 
     // REFERENCES
@@ -113,14 +117,12 @@ function App() {
         //         console.log("Aucune donnée à afficher")
         //     }
         // });
-        // // console.log('Prout 💨')
+
         const data = [trackDb]
-        // console.log(tracks)
 
         // eslint-disable-next-line
         data.map(track => {
             setTracks(track);
-            console.log(track)
             setArtist(id < track.length ? track[id].artist : track[0].artist)
             setTitle(id < track.length ? track[id].title : track[0].title)
             setNextArtist(id + 1 < track.length ? `${track[id + 1].artist} - ` :
@@ -224,6 +226,7 @@ function App() {
         }
     }
     const handleClickSong = (track) => {
+        setPlaylistVisible(false)
         setId(track.trackId)
         setArtist(track.artist)
         setTitle(track.title)
@@ -254,14 +257,84 @@ function App() {
     }
 
 
+
     return (
         <>
             {/*<ButtonAdminPanel admin={admin} setAdmin={setAdmin}>*/}
             {/*    Admin Panel*/}
             {/*</ButtonAdminPanel>*/}
+            <div className={`
+            md:hidden
+            ${playlistVisible ? "hidden" : "block"}
+            absolute right-2 top-2
+            w-[100px]
+            h-[30px]
+            flex
+            justify-center
+            items-center
+            bg-white
+            bg-opacity-40
+            active:bg-opacity-80
+            active:text-main-dark
+            active:duration-500
+            text-sm
+            text-white
+            text-center
+            rounded-xl
+            cursor-pointer
+            z-20
+            `}
+                 onClick={() => setPlaylistVisible(!playlistVisible)}>
+                See playlist
+            </div>
+
+            <div
+                className={`md:hidden absolute ${!playlistVisible ? "-right-full duration-1000" : "right-0 duration-1000"} 
+                flex flex-col items-center justify-center min-h-screen w-screen bg-transparent z-10 px-1`}>
+                <button className="
+                h-[50px] w-[50px]
+                flex items-center justify-center
+                my-2 rounded-full text-white bg-white bg-opacity-20
+                active:rotate-90 active:duration-500
+                hover:duration-500"
+                        onClick={() => setPlaylistVisible(false)}>
+                    <img src={cancel} className="w-1/3" alt="close button"/>
+                </button>
+                <ul>
+                    {tracks.map((track) => (
+                        <div key={track.trackId} className="flex min-w-full mx-auto relative">
+                            <li onClick={() => handleClickSong(track)}
+                                className="z-10 w-full text-white text-sm rounded-xl
+                                            bg-transparent
+                                            border
+                                            py-2
+                                            px-2
+                                            my-1
+                                            mx-1
+                                            hover:text-blue-700
+                                            hover:bg-white
+                                            hover:border-white
+                                            hover:text-main
+                                            hover:cursor-pointer
+                                            hover:duration-500
+                                            hover:ease-out">
+                                <strong>{track.artist}</strong> - {track.title}
+                            </li>
+                            {id === track.trackId && isPlaying
+                                ? <div className="flex flex-col justify-center items-center h-8 w-8 rounded-full bg-red absolute
+                                md:-right-4 md:-top-1
+                                sm: right-0 md:-top-1 image-clignote text-xs
+                                text-white">
+                                    {headphones}
+                                </div>
+                                : ""}
+                        </div>
+                    ))}
+                </ul>
+            </div>
 
             <div className="
-                    sm:h-screen
+                    max-h-screen
                     md:h-80
                     md:rounded-xl
                     md:min-w-[850px]
@@ -271,10 +344,11 @@ function App() {
                     overflow-hidden
                     box-shadow4">
 
-                <div className="h-full w-full md:flex">
+                <div
+                    className={`${playlistVisible ? "blur-2xl duration-1000 backdrop-brightness-0 opacity-100" : "duration-700"} h-screen md:h-full w-full md:flex`}>
 
                     <div className="md:shrink-0 md:w-80">
-                        <img className="sm:h-full w-full object-cover md:h-full sm:w-full"
+                        <img className="w-full object-cover h-full"
                              style={{filter: "brightness(90%) contrast(95%) grayscale(50%)"}}
                              src={imgURL}
                              alt={artist}
@@ -282,7 +356,7 @@ function App() {
                         <audio ref={audioRef} preload="auto" src={soundURL}></audio>
                     </div>
 
-                    <div className="md:h-full md:w-full md:p-8 sm:p-6">
+                    <div className="h-max md:h-full md:w-full md:p-8 p-6">
                         <div className="uppercase tracking-wide sm:text-xl text-main font-semibold">
                             {artist}
                         </div>
@@ -361,24 +435,25 @@ function App() {
             {/*    setSoundURL={setSoundURL}*/}
             {/*/> : ""}*/}
 
-            <div className="flex justify-center align-middle
+
+            {/*PLAYLIST SECTION*/}
+            <div className="
+            md:flex justify-center align-middle
+            hidden
             md:mt-10
-            sm:mt-0
             md:bg-white
-            sm:w-5/6
             md:text-xl
-            sm:text-sm
             mx-auto
             md:w-[850px]
             md:rounded-xl
-            py-4
+            md:py-4
             md:px-2
             md:h-max
             sizePlaylist
             ">
                 <ul>
                     <h2 className="uppercase text-4xl text-main font-bold font-[Sono] pb-4 text-center"
-                        id="playlist">
+                        id="playlist" onClick={() => setPlaylistVisible(true)}>
                         Playlist
                     </h2>
                     {tracks.map((track) => (
@@ -409,7 +484,7 @@ function App() {
                     ))}
                 </ul>
             </div>
-            <ScrollToTop style={{paddingLeft: "6px"}} smooth={true}/>
+            <ScrollToTop className="md:block hidden pl-2" smooth={true}/>
         </>
 
     );
