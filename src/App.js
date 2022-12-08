@@ -263,36 +263,10 @@ function App() {
             {/*    Admin Panel*/}
             {/*</ButtonAdminPanel>*/}
 
-            {/*LOGO PLAYLIST MOBILE*/}
-            <div className={`
-            md:hidden
-            ${playlistVisible ? "hidden" : "block"}
-            absolute right-4 top-4
-            w-[50px]
-            h-[50px]
-            flex
-            justify-center
-            items-center
-            bg-main-dark
-            p-2
-            bg-opacity-30
-            active:bg-opacity-80
-            active:text-main-dark
-            active:duration-500
-            text-sm
-            text-white
-            text-center
-            rounded-xl
-            cursor-pointer
-            z-20
-            `}
-                 onClick={() => setPlaylistVisible(!playlistVisible)}>
-                <img src={playlistSvg} alt="playlist logo"/>
-            </div>
 
             {/*SECTION PLAYLIST MOBILE*/}
             <div
-                className={`md:hidden absolute ${!playlistVisible ? "-right-full duration-500" : "right-0 duration-500"} 
+                className={`md:hidden absolute ${!playlistVisible ? "hidden duration-500" : "right-0 duration-500"} 
                 flex flex-col items-center scroll-smooth justify-evenly min-h-screen w-screen bg-transparent z-10 px-1`}>
                 <button className="
                 h-[50px] w-[50px]
@@ -335,6 +309,7 @@ function App() {
                 </ul>
             </div>
 
+            {/*SECTION PLAYER*/}
             <div className="
                     max-h-screen
                     md:h-80
@@ -385,7 +360,7 @@ function App() {
                         </div>
 
                         {/*TIME PANEL*/}
-                        <div className="flex justify-between pb-10 md:pb-0">
+                        <div className="flex justify-between pb-5 md:pb-0">
                             <div
                                 className="font-mono text-lg text-main font-bold">{convertSecondstoTime(secondsCount)}</div>
                             <div className="font-mono text-lg">{secondsDecount
@@ -405,6 +380,32 @@ function App() {
                             tracks={tracks}
                             id={id}/>
 
+                        {/*LOGO PLAYLIST MOBILE*/}
+                        <div className={`
+            md:hidden
+            ${playlistVisible ? "hidden" : "block"}
+            mx-auto
+            w-[50px]
+            h-[50px]
+            flex
+            justify-center
+            items-center
+            bg-main-dark
+            p-2
+            bg-opacity-30
+            active:bg-opacity-80
+            active:text-main-dark
+            active:duration-500
+            text-sm
+            text-white
+            text-center
+            rounded-xl
+            cursor-pointer
+            z-20
+            `}
+                             onClick={() => setPlaylistVisible(!playlistVisible)}>
+                            <img src={playlistSvg} alt="playlist logo"/>
+                        </div>
 
                         {/*VOLUME BAR*/}
                         <VolumeModule currentTrack={currentTrack} volume={volume} setVolume={setVolume}/>
