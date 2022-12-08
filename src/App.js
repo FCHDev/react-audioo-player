@@ -322,7 +322,10 @@ function App() {
                     box-shadow4">
 
                 <div
-                    className={`${playlistVisible ? "blur-2xl duration-500 backdrop-brightness-0 opacity-100" : "duration-500"} h-screen md:h-full w-full md:flex`}>
+                    className={`${playlistVisible ? "blur-2xl duration-500 backdrop-brightness-0 opacity-100" : "blur-0 duration-500"} 
+                    h-screen md:h-full 
+                    w-full md:flex
+                    `}>
 
                     <div className="md:shrink-0 md:w-80">
                         <img className="w-full object-cover h-full"
@@ -333,7 +336,7 @@ function App() {
                         <audio ref={audioRef} preload="auto" src={soundURL}></audio>
                     </div>
 
-                    <div className="h-max md:h-full md:w-full md:p-8 p-6">
+                    <div className="h-max md:h-full md:w-full md:p-8 p-4 flex flex-col justify-evenly">
                         <div className="uppercase tracking-wide sm:text-xl text-main font-semibold">
                             {artist}
                         </div>
@@ -353,14 +356,14 @@ function App() {
                         }
 
                         {/*PROGRESS BAR*/}
-                        <div className="w-full bg-main-light rounded-full h-2.5 dark:bg-gray-700 my-5 cursor-pointer"
+                        <div className="w-full bg-main-light rounded-full h-2.5 dark:bg-gray-700 my-1 md:my-5 cursor-pointer"
                              ref={progressBar}
                              onClick={checkWidth}>
                             <div className="bg-main h-2.5 rounded-full" style={{width: `${completed}%`}}></div>
                         </div>
 
                         {/*TIME PANEL*/}
-                        <div className="flex justify-between pb-5 md:pb-0">
+                        <div className="flex justify-between pb-0 md:pb-0">
                             <div
                                 className="font-mono text-lg text-main font-bold">{convertSecondstoTime(secondsCount)}</div>
                             <div className="font-mono text-lg">{secondsDecount
