@@ -270,7 +270,7 @@ function App() {
                 ${!playlistVisible ? "opacity-0 z-0 duration-500" : "opacity-100 z-20 duration-500"} 
                 flex flex-col items-center scroll-smooth justify-evenly min-h-screen w-screen bg-transparent z-0 px-1`}>
                 <button className="
-                h-[50px] w-[50px]
+                h-[60px] w-[60px]
                 flex items-center justify-center
                 my-2 rounded-full text-white bg-white bg-opacity-20
                 active:rotate-90 active:duration-500
@@ -364,7 +364,7 @@ function App() {
                         </div>
 
                         {/*TIME PANEL*/}
-                        <div className="flex justify-between pb-0 md:pb-0">
+                        <div className="flex justify-between pb-3 md:pb-0">
                             <div
                                 className="font-mono text-lg text-main font-bold">{convertSecondstoTime(secondsCount)}</div>
                             <div className="font-mono text-lg">{secondsDecount
