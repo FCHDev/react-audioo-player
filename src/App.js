@@ -268,7 +268,7 @@ function App() {
             <div
                 className={`md:hidden absolute
                 ${!playlistVisible ? "opacity-0 z-0 duration-500" : "opacity-100 z-20 duration-500"} 
-                flex flex-col items-center scroll-smooth justify-evenly min-h-screen w-screen bg-transparent z-10 px-1`}>
+                flex flex-col items-center scroll-smooth justify-evenly min-h-screen w-screen bg-transparent z-0 px-1`}>
                 <button className="
                 h-[50px] w-[50px]
                 flex items-center justify-center
