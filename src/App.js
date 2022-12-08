@@ -385,7 +385,7 @@ function App() {
                         </div>
 
                         {/*TIME PANEL*/}
-                        <div className="flex justify-between pb-16 md:pb-0">
+                        <div className="flex justify-between pb-10 md:pb-0">
                             <div
                                 className="font-mono text-lg text-main font-bold">{convertSecondstoTime(secondsCount)}</div>
                             <div className="font-mono text-lg">{secondsDecount
