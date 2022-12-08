@@ -3,6 +3,7 @@ import React, {useEffect, useRef, useState} from "react";
 import VolumeModule from "./components/VolumeModule";
 import convertSecondstoTime from "./functions/convertSecondsToTime";
 import cancel from "./assets/svg/cancel.svg"
+import playlistSvg from "./assets/svg/playlist.svg"
 import ScrollToTop from "react-scroll-to-top";
 import trackDb from "./data/trackDb.json"
 // import ButtonAdminPanel from "./components/ButtonAdminPanel";
@@ -261,17 +262,20 @@ function App() {
             {/*<ButtonAdminPanel admin={admin} setAdmin={setAdmin}>*/}
             {/*    Admin Panel*/}
             {/*</ButtonAdminPanel>*/}
+
+            {/*LOGO PLAYLIST MOBILE*/}
             <div className={`
             md:hidden
             ${playlistVisible ? "hidden" : "block"}
-            absolute right-2 top-2
-            w-[100px]
-            h-[30px]
+            absolute right-4 top-4
+            w-[50px]
+            h-[50px]
             flex
             justify-center
             items-center
-            bg-white
-            bg-opacity-40
+            bg-main-dark
+            p-2
+            bg-opacity-30
             active:bg-opacity-80
             active:text-main-dark
             active:duration-500
@@ -283,12 +287,13 @@ function App() {
             z-20
             `}
                  onClick={() => setPlaylistVisible(!playlistVisible)}>
-                See playlist
+                <img src={playlistSvg} alt="playlist logo"/>
             </div>
 
+            {/*SECTION PLAYLIST MOBILE*/}
             <div
-                className={`md:hidden absolute ${!playlistVisible ? "-right-full duration-700" : "right-0 duration-700"} 
-                flex flex-col items-center justify-center min-h-screen w-screen bg-transparent z-10 px-1`}>
+                className={`md:hidden absolute ${!playlistVisible ? "-right-full duration-500" : "right-0 duration-500"} 
+                flex flex-col items-center scroll-smooth justify-evenly min-h-screen w-screen bg-transparent z-10 px-1`}>
                 <button className="
                 h-[50px] w-[50px]
                 flex items-center justify-center
@@ -309,10 +314,9 @@ function App() {
                                             px-2
                                             my-1
                                             mx-1
-                                            hover:text-blue-700
                                             hover:bg-white
                                             hover:border-white
-                                            hover:text-main
+                                            hover:text-main-dark
                                             hover:cursor-pointer
                                             hover:duration-500
                                             hover:ease-out">
@@ -343,7 +347,7 @@ function App() {
                     box-shadow4">
 
                 <div
-                    className={`${playlistVisible ? "blur-2xl duration-700 backdrop-brightness-0 opacity-100" : "duration-700"} h-screen md:h-full w-full md:flex`}>
+                    className={`${playlistVisible ? "blur-2xl duration-500 backdrop-brightness-0 opacity-100" : "duration-500"} h-screen md:h-full w-full md:flex`}>
 
                     <div className="md:shrink-0 md:w-80">
                         <img className="w-full object-cover h-full"
@@ -381,7 +385,7 @@ function App() {
                         </div>
 
                         {/*TIME PANEL*/}
-                        <div className="flex justify-between">
+                        <div className="flex justify-between pb-16 md:pb-0">
                             <div
                                 className="font-mono text-lg text-main font-bold">{convertSecondstoTime(secondsCount)}</div>
                             <div className="font-mono text-lg">{secondsDecount
@@ -406,7 +410,7 @@ function App() {
                         <VolumeModule currentTrack={currentTrack} volume={volume} setVolume={setVolume}/>
 
                         {/*NEXT TRACK */}
-                        <div className="md:block">
+                        <div className="md:block hidden">
                                 <span className="md:py-0 py-4 italic text-xs h-5 text-main"
                                       id="nextSong">
                                     Next song : {nextArtist} {nextTitle}
