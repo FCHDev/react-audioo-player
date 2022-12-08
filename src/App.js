@@ -266,7 +266,8 @@ function App() {
 
             {/*SECTION PLAYLIST MOBILE*/}
             <div
-                className={`md:hidden absolute ${!playlistVisible ? "hidden duration-500" : "right-0 duration-500"} 
+                className={`md:hidden absolute
+                ${!playlistVisible ? "opacity-0 z-0 duration-500" : "opacity-100 z-20 duration-500"} 
                 flex flex-col items-center scroll-smooth justify-evenly min-h-screen w-screen bg-transparent z-10 px-1`}>
                 <button className="
                 h-[50px] w-[50px]
@@ -322,7 +323,7 @@ function App() {
                     box-shadow4">
 
                 <div
-                    className={`${playlistVisible ? "blur-2xl duration-500 backdrop-brightness-0 opacity-100" : "blur-0 duration-500"} 
+                    className={`${playlistVisible ? "blur-2xl backdrop-brightness-0 opacity-100" : "blur-0"} 
                     h-screen md:h-full 
                     w-full md:flex
                     `}>
@@ -393,7 +394,7 @@ function App() {
             flex
             justify-center
             items-center
-            bg-main-dark
+            bg-main
             p-2
             bg-opacity-30
             active:bg-opacity-80
